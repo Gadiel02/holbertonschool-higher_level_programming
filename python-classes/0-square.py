@@ -3,4 +3,7 @@
 
 
 class Square:
-    pass
+    pass  # An empty block
+
+p = Person()
+print(p)
