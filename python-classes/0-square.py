@@ -1,9 +1,8 @@
 #!/usr/bin/python3
-"""una classe vacia"""
+""""Documentation"""
 
 
-class Square:
-    pass  # An empty block
-
-p = Person()
-print(p)
+class Square():
+    """Documentation"""
+    def __init__(self):
+        pass
