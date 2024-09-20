@@ -1,67 +1,61 @@
 #!/usr/bin/python3
-"""
-This is the "Rectangle"  module.
+"""Defines a square"""
 
-This module provides a Rectangle class.
-"""
+class Square:
+    """Defines a square"""
 
-
-class Rectangle:
-    """A Rectangle class with attributes width and height,
-    methods area, perimeter, print, str, repr, and del, and
-    class attribute number_of_instances that keeps track of # of instances.
-    """
-
-    number_of_instances = 0
-
-    def __init__(self, width=0, height=0):
-        self.width = width
-        self.height = height
-        Rectangle.number_of_instances += 1
-
-    @property
-    def width(self):
-        return self.__width
-
-    @width.setter
-    def width(self, value):
-        if type(value) is not int:
-            raise TypeError("width must be an integer")
-        if value < 0:
-            raise ValueError("width must be >= 0")
-        self.__width = value
-
-    @property
-    def height(self):
-        return self.__height
-
-    @height.setter
-    def height(self, value):
-        if type(value) is not int:
-            raise TypeError("height must be an integer")
-        if value < 0:
-            raise ValueError("height must be >= 0")
-        self.__height = value
-
-    def __repr__(self):
-        return "Rectangle({:d}, {:d})".format(self.__width, self.__height)
-
-    def __str__(self):
-        total = ""
-        for i in range(self.__height):
-            total += ("#" * self.__width)
-            if i is not self.__height - 1:
-                total += "\n"
-        return total
-
-    def __del__(self):
-        print("Bye rectangle...")
-        Rectangle.number_of_instances -= 1
+    def __init__(self, size=0, position=(0, 0)):
+        """Initializes the data"""
+        self.size = size
+        self.position = position
 
     def area(self):
-        return self.__width * self.__height
+        """Returns current square area"""
+        return self.__size ** 2
 
-    def perimeter(self):
-        if self.__width is 0 or self.__height is 0:
-            return 0
-        return (2 * self.__width) + (2 * self.__height)
+    @property
+    def size(self):
+        """Getter method for size"""
+        return self.__size
+
+    @size.setter
+    def size(self, value):
+        """Setter method for size"""
+        if not isinstance(value, int):
+            raise TypeError("size must be an integer")
+        if value < 0:
+            raise ValueError("size must be >= 0")
+        self.__size = value
+
+    @property
+    def position(self):
+        """Getter method for position"""
+        return self.__position
+
+    @position.setter
+    def position(self, value):
+        """Setter method for position"""
+        if not isinstance(value, tuple) or len(value) != 2:
+            raise TypeError("position must be a tuple of 2 positive integers")
+        if any(not isinstance(i, int) or i < 0 for i in value):
+            raise TypeError("position must be a tuple of 2 positive integers")
+        self.__position = value
+
+    def my_print(self):
+        """Prints the square"""
+        if self.__size == 0:
+            print()
+        else:
+            print("\n" * self.__position[1], end='')
+            for i in range(self.__size):
+                print(" " * self.__position[0] + "#" * self.__size)
+
+# Ejemplo de uso:
+if __name__ == "__main__":
+    s = Square(3, (1, 2))
+    s.my_print()
+    print(f"Area: {s.area()}")
+    s.size = 5
+    s.position = (2, 1)
+    s.my_print()
+    print(f"Area: {s.area()}")
