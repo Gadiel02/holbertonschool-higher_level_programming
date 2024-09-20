@@ -1,6 +1,11 @@
 #!/usr/bin/python3
-"""Documentation"""
+"""
+This is the "Rectangle"  module.
+
+This module provides a simple Rectangle class.
+"""
+
+
 class Rectangle:
-    """Emty Class"""
-      def __init__(self):
-        pass
+    """A simple Rectangle class"""
+    pass 
