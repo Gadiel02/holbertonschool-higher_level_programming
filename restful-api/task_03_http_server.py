@@ -1,4 +1,3 @@
-"""Develop a simple API using Python with the `http.server` module"""
 import http.server
 import json
 
@@ -42,10 +41,11 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(b"Hello, this is a simple API!")
 
         else:
+            # Send a 404 response with a message
             self.send_response(404)
             self.send_header("Content-type", "text/html")
             self.end_headers()
-            self.wfile.write(b"404 Not Found")
+            self.wfile.write(b"404 Not Found: The requested resource was not found on this server.")
 
 # Set up and run the server
 with http.server.HTTPServer(("", PORT), Handler) as httpd:
