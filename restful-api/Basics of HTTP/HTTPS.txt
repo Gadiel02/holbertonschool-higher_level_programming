@@ -1,0 +1,87 @@
+# Crear un archivo de texto con el contenido
+def create_txt(filename):
+    content = """\
+Background:
+The Hypertext Transfer Protocol (HTTP) is the foundation of data communication on the web.
+It allows web clients (like browsers) to communicate with web servers. HTTP has evolved over time
+and has a secure counterpart called HTTPS (HTTP Secure). HTTPS is just like HTTP but with an added layer
+of security using SSL/TLS encryption. This layer protects the data from eavesdroppers and tampering.
+
+Objective:
+At the end of this exercise, students should be able to:
+1. Differentiate between HTTP and HTTPS.
+2. Understand the basic working and structure of HTTP requests and responses.
+3. Recognize and explain the common HTTP methods and status codes.
+
+Resources:
+- Mozilla Developer Network (MDN) - An Overview of HTTP
+- Difference between HTTP and HTTPS
+- List of HTTP status codes
+
+Instructions:
+Differentiating HTTP and HTTPS:
+1. Read the provided resources to understand the basic differences between HTTP and HTTPS.
+2. Jot down the main differences, focusing on security aspects.
+3. Optional: Use a packet sniffer tool like Wireshark to observe the traffic of an HTTP and an HTTPS request
+   (Make sure you have the appropriate permissions).
+
+Understanding HTTP Structure:
+1. Visit a simple website, right-click, and choose “Inspect” or “Inspect Element”.
+2. Navigate to the “Network” tab. This shows all network requests made by the page.
+3. Reload the page and observe the first request. Click on it. Explore the “Headers” section to understand the
+   structure of HTTP requests and responses. You’ll see methods, paths, status codes, headers, and more.
+
+Exploring HTTP Methods and Status Codes:
+1. Make a list of at least four common HTTP methods and explain when each would be used.
+2. Make another list of five common HTTP status codes. For each status code, provide a brief description and a scenario
+   where it might be encountered.
+
+Hints:
+- HTTP does not encrypt its data, which means that anyone eavesdropping on the communication can see the content.
+- HTTPS adds a layer of encryption, making the content unintelligible to eavesdroppers.
+- The “s” in “https” stands for “secure”. Websites, especially those that handle sensitive data like banking websites or
+  email providers, typically use HTTPS.
+- Each HTTP status code has a specific purpose. They are grouped by their first digit: 1xx (informational),
+  2xx (successful), 3xx (redirection), 4xx (client errors), and 5xx (server errors).
+
+Expected Output:
+1. A brief summary explaining the differences between HTTP and HTTPS.
+2. A depiction or outline of the structure of an HTTP request and response.
+3. Lists of common HTTP methods and status codes with their descriptions and possible use cases.
+
+Examples:
+- Method: GET, Description: Retrieves data, Use case: Fetching a web page or data from an API.
+- Status Code: 404, Description: Not Found, Scenario: When a requested page or resource isn’t available on the server.
+"""
+    
+    with open(filename, 'w') as file:
+        file.write(content)
+
+# Generar el archivo de texto
+create_txt("http_https_exercise.txt")
+
+
+# Servidor HTTP que sirve el archivo .txt
+import http.server
+
+# Clase para manejar solicitudes HTTP
+class Handler(http.server.BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/txt":
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+
+            # Leer y enviar el archivo de texto
+            with open("http_https_exercise.txt", "rb") as txt_file:
+                self.wfile.write(txt_file.read())
+        else:
+            self.send_response(404)
+            self.end_headers()
+            self.wfile.write(b"404 Not Found")
+
+# Servidor HTTP en el puerto 8000
+PORT = 8000
+with http.server.HTTPServer(("", PORT), Handler) as httpd:
+    print(f"Serving at port {PORT}")
+    httpd.serve_forever()
