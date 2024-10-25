@@ -1,1 +1,2 @@
-SHOW TABLES;
+-- Show tables
+SHOW tables;
